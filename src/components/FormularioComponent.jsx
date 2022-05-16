@@ -1,6 +1,8 @@
 import { useState } from "react";
+import CardComponent from "./CardComponent";
 
 function FormularioComponent() {
+  const [estaCompletado, SetEstaCompletado] = useState(false);
   const [name, SetName] = useState("");
   const [apellido, SetApellido] = useState("");
   const [email, SetEmail] = useState("");
@@ -30,9 +32,6 @@ function FormularioComponent() {
     if (telefono.length === 0) {
       return alert("Por favor introducir telefono");
     }
-    if (telefono.length > 10) {
-      return alert("Numero muy largo");
-    }
 
     if (email.length === 0) {
       return alert("Por favor introducir correo");
@@ -40,57 +39,75 @@ function FormularioComponent() {
     console.log(
       `Nombre: ${name}, Apellido: ${apellido}, Telefono: ${telefono}, Email: ${email}`
     );
+    SetEstaCompletado(true);
   };
 
   return (
-    <form className="form" onSubmit={enviarDatos}>
-      <h1>Formulario</h1>
-      <label>
-        Nombre: <br></br>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          placeholder="Daniel"
-          onChange={cambiarNombre}
+    <>
+      <form className="form" onSubmit={enviarDatos}>
+        <h1>Formulario</h1>
+        <label>
+          Nombre: <br></br>
+          <input
+            type="text"
+            name="name"
+            value={name}
+            placeholder="Daniel"
+            onChange={cambiarNombre}
+          />
+        </label>
+        <br></br>
+        <label>
+          Apellido:<br></br>
+          <input
+            type="text"
+            name="apellido"
+            value={apellido}
+            placeholder="Cabrera"
+            onChange={cambiarApellido}
+          />
+        </label>
+        <br></br>
+        <label>
+          E-mail:<br></br>
+          <input
+            type="email"
+            name="email"
+            placeholder="abc@gmail.com"
+            value={email}
+            onChange={cambiarEmail}
+          />
+        </label>
+        <br></br>
+        <label>
+          Telefono:<br></br>
+          <input
+            type="tel"
+            name="telefono"
+            placeholder="123-456-7890"
+            value={telefono}
+            onChange={cambiarTelefono}
+          />
+        </label>
+        <br></br>
+        <button type="submit">Enviar</button>
+        {estaCompletado === true ? (
+          <p>Completado Correctamente</p>
+        ) : (
+          <p>Falta por completar</p>
+        )}
+      </form>
+      {estaCompletado === true ? (
+        <CardComponent
+          name={name}
+          apellido={apellido}
+          telefono={telefono}
+          email={email}
         />
-      </label>
-      <br></br>
-      <label>
-        Apellido:<br></br>
-        <input
-          type="text"
-          name="apellido"
-          value={apellido}
-          placeholder="Cabrera"
-          onChange={cambiarApellido}
-        />
-      </label>
-      <br></br>
-      <label>
-        E-mail:<br></br>
-        <input
-          type="email"
-          name="email"
-          placeholder="abc@gmail.com"
-          value={email}
-          onChange={cambiarEmail}
-        />
-      </label>
-      <br></br>
-      <label>
-        Telefono:<br></br>
-        <input
-          type="tel"
-          name="telefono"
-          placeholder="123-456-7890"
-          value={telefono}
-          onChange={cambiarTelefono}
-        />
-      </label>
-      <br></br>
-      <button type="submit">Enviar</button>
-    </form>
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 
